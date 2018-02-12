@@ -82,13 +82,20 @@ namespace sharp_presence
     public static extern void RunCallbacks();
 
     [DllImport("discord-rpc.dll", EntryPoint = "Discord_UpdatePresence", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void UpdatePresence(ref RichPresenceStruct presence);
+    private static extern void UpdatePresenceNative(ref RichPresenceStruct presence);
 
     [DllImport("discord-rpc.dll", EntryPoint = "Discord_ClearPresence", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ClearPresence();
 
     [DllImport("discord-rpc.dll", EntryPoint = "Discord_Respond", CallingConvention = CallingConvention.Cdecl)]
     public static extern void Respond(string userId, Reply reply);
+
+    public static void UpdatePresence(RichPresence presence)
+    {
+      var presencestruct = presence.GetStruct();
+      UpdatePresenceNative(ref presencestruct);
+      presence.FreeMem();
+    }
 
     public class RichPresence
     {

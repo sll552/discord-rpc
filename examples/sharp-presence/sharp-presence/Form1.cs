@@ -82,10 +82,9 @@ namespace sharp_presence
         MessageBoxIcon.Exclamation);
     }
 
-    private void Update()
+    private new void Update()
     {
-      var presence = _presence.GetStruct();
-      DiscordRpc.UpdatePresence(ref presence);
+      DiscordRpc.UpdatePresence(_presence);
       // wait for callbacks
       Thread.Sleep(500);
       DiscordRpc.RunCallbacks();
